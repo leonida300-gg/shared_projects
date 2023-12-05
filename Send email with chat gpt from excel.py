@@ -13,7 +13,7 @@ openai.api_key = "your Open Ai API key"
 #import the email, name investor and company website frome excel 
 import pandas as pd
 
-path = "C:/Users/caneparo/Desktop/Paolo's code projects/trial excel python code.xlsx"
+path = "path to your excel file"
 df = pd.read_excel(path)
 data_vc_final = df[['Website (if available)', 'Partner Name', 'Partner Email']].dropna(axis= 0)
 
@@ -22,13 +22,13 @@ server = None
 
 sender_email = "your_email_adress"
 sender_password = "your_email_password"
-pdf_file = "C:\\Users\\caneparo\\Desktop\\CV_Paolo_Caneparo.pdf"
+pdf_file = "path to your CV as a PDF file"
 subject = "Summer internship"
 
 for i in range(len(data_vc_final)):
-    website = data_vc_final.loc[i]['Website (if available)']
-    email = data_vc_final.loc[i]['Partner Email']
-    name_partner = data_vc_final.loc[i]['Partner Name']
+    website = data_vc_final.loc[i]['Website (if available)'] #to adjust according to the name of the Excel column
+    email = data_vc_final.loc[i]['Partner Email'] #to adjust according to the name of the Excel column
+    name_partner = data_vc_final.loc[i]['Partner Name'] #to adjust according to the name of the Excel column
     
     # Use the OpenAI API to generate the email text
     response = openai.Completion.create(
@@ -40,6 +40,7 @@ for i in range(len(data_vc_final)):
     email_text = response["choices"][0]["text"]
 
     try:
+        # This needs to be adjusted to your email provider server. FYI, Google and Microsoft emails don't work.
         server = smtplib.SMTP('mail.privateemail.com', 587)
         server.starttls()
         server.login(sender_email, sender_password)
